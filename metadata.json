@@ -1,0 +1,20 @@
+{
+  "KPackageStructure": "Plasma/Applet",
+  "KPlugin": {
+    "Id": "io.github.gebba.ai-usage-widget",
+    "Name": "AI Usage Widget",
+    "Description": "Shows local AI usage balance from a sanitized cache file.",
+    "Version": "0.1.0",
+    "License": "GPL-3.0-or-later",
+    "Website": "https://github.com/gebba/ai-usage-widget",
+    "BugReportUrl": "https://github.com/gebba/ai-usage-widget/issues",
+    "Authors": [
+      {
+        "Name": "gebba"
+      }
+    ],
+    "Category": "System Information",
+    "Icon": "view-statistics"
+  },
+  "X-Plasma-API-Minimum-Version": "6.0"
+}

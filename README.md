@@ -216,6 +216,18 @@ Run:
 ./install.sh
 ```
 
+## Possible future directions
+
+These are ideas, not promises or a roadmap:
+
+- Additional providers such as GitHub Copilot, Anthropic, and OpenRouter.
+- Rolling cost tracking where provider APIs expose spend or token usage.
+- Provider-specific quota/limit cards alongside cost cards.
+- A more generic provider/plugin layout for the helper.
+- Configurable refresh intervals and provider selection in the widget settings.
+
+Support depends on what each provider exposes locally or through stable APIs. Some providers may not expose reliable quota, usage, or cost data suitable for a desktop widget.
+
 ## Development workflow
 
 After editing QML/helper files, reinstall with:

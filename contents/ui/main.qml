@@ -26,7 +26,7 @@ PlasmoidItem {
     Plasmoid.icon: "view-statistics"
     Plasmoid.title: "AI Usage"
     toolTipSubText: usageState.status === "ok"
-        ? "Lowest remaining: " + State.formatPercent(usageState.lowestRemainingPercent)
+        ? compactUsageLabel() + ": " + State.formatPercent(compactUsagePercent())
         : (usageState.error || loadError || "Waiting for usage cache")
 
     function reloadState() {
@@ -48,6 +48,42 @@ PlasmoidItem {
             return limits
         }
         return limits.filter(function(limit) { return !isSparkLimit(limit) })
+    }
+
+    function compactUsageLimit() {
+        var limits = visibleLimits()
+        for (var i = 0; i < limits.length; i++) {
+            if (limits[i].scope === "shared" && Number(limits[i].windowSeconds) === 18000) {
+                return limits[i]
+            }
+        }
+        for (var j = 0; j < limits.length; j++) {
+            if (limits[j].scope === "shared") {
+                return limits[j]
+            }
+        }
+        for (var k = 0; k < limits.length; k++) {
+            if (!isSparkLimit(limits[k]) && Number(limits[k].windowSeconds) === 18000) {
+                return limits[k]
+            }
+        }
+        return limits.length > 0 ? limits[0] : null
+    }
+
+    function compactUsagePercent() {
+        var limit = compactUsageLimit()
+        if (limit && limit.remainingPercent !== undefined && limit.remainingPercent !== null) {
+            return limit.remainingPercent
+        }
+        return usageState.lowestRemainingPercent
+    }
+
+    function compactUsageLabel() {
+        var limit = compactUsageLimit()
+        if (!limit) {
+            return "Codex session remaining"
+        }
+        return limit.name || "Codex session remaining"
     }
 
     function fetchUsage() {
@@ -122,8 +158,8 @@ PlasmoidItem {
 
             PlasmaComponents3.Label {
                 Layout.alignment: Qt.AlignHCenter
-                text: State.formatPercent(root.usageState.lowestRemainingPercent)
-                color: State.severityColor(root.usageState.lowestRemainingPercent, Kirigami.Theme)
+                text: State.formatPercent(root.compactUsagePercent())
+                color: State.severityColor(root.compactUsagePercent(), Kirigami.Theme)
                 font.bold: true
             }
         }
